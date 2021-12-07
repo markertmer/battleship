@@ -14,8 +14,14 @@ RSpec.describe 'Ship' do
 
   it 'has a length' do
     cruiser = Ship.new("Cruiser", 3)
-    binding.pry
+    #binding.pry
     expect(cruiser.length).to eq(3)
+  end
+
+  it 'has a healthbar' do
+    cruiser = Ship.new("Cruiser", 3)
+    binding.pry
+    expect(cruiser.health).to eq(3)
   end
 
 end
