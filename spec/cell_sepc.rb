@@ -52,4 +52,21 @@ RSpec.describe "Cell" do
     expect(cell.fired_upon?).to be(true)
   end
 
+  it 'cell can only be fired upon once' do
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    #binding.pry
+    cell.fire_upon
+    cell.fire_upon
+    expect(cell.ship.health).to eq(2)
+    expect(cell.fired_upon?).to be(true)
+  end
+
+  xit "exists" do
+    cell_1 = Cell.new("B4")
+    binding.pry
+    expect(cell_1).to be_instance_of(Cell)
+  end
+
 end

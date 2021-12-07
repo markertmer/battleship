@@ -20,7 +20,7 @@ class Cell
   end
 
   def fire_upon
-    ship.hit
+    ship.hit if !fired_upon? 
   end
 
   def fired_upon?
