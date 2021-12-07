@@ -15,4 +15,16 @@ RSpec.describe "Cell" do
     expect(cell.coordinate).to eq("B4")
   end
 
+  it "Check to see if ship is on that cell" do
+    cell = Cell.new("B4")
+    #binding.pry
+    expect(cell.ship).to be nil
+  end
+
+  it 'Check Cell Ocupancy' do
+    cell = Cell.new("B4")
+    expect(cell.empty?).to eq(true)
+  end
+    
+
 end
