@@ -63,10 +63,16 @@ RSpec.describe "Cell" do
     expect(cell.fired_upon?).to be(true)
   end
 
-  xit "exists" do
+  it "exists" do
+    cell_1 = Cell.new("B4")
+    #binding.pry
+    expect(cell_1).to be_instance_of(Cell)
+  end
+
+  it "Renders a Cell" do
     cell_1 = Cell.new("B4")
     binding.pry
-    expect(cell_1).to be_instance_of(Cell)
+    expect(cell_1.render).to eq(".")
   end
 
 end

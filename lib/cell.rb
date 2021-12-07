@@ -20,7 +20,7 @@ class Cell
   end
 
   def fire_upon
-    ship.hit if !fired_upon? 
+    ship.hit if !fired_upon?
   end
 
   def fired_upon?
@@ -28,6 +28,14 @@ class Cell
       return false
     else
       return true
+    end
+  end
+
+  def render
+    if !fired_upon?
+      puts "."
+    elsif fired_upon? && empty?
+      puts "M"
     end
   end
 
