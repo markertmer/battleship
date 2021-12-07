@@ -34,5 +34,22 @@ RSpec.describe "Cell" do
     expect(cell.empty?).to be(false)
   end
 
+  it 'Cell by defult is not fired upon' do
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    #binding.pry
+    cell.place_ship(cruiser)
+    expect(cell.fired_upon?).to be(false)
+  end
+
+  it 'cell can be fired_upon and can damage a ship' do
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    #binding.pry
+    cell.fire_upon
+    expect(cell.ship.health).to eq(2)
+    expect(cell.fired_upon?).to be(true)
+  end
 
 end

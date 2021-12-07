@@ -7,9 +7,6 @@ class Cell
     @coordinate = coordinate
   end
 
-  # def ship
-  # end
-
   def empty?
     if @ship == nil
       return true
@@ -20,6 +17,18 @@ class Cell
 
   def place_ship(boat)
     @ship = boat
+  end
+
+  def fire_upon
+    ship.hit
+  end
+
+  def fired_upon?
+    if ship.health == ship.length
+      return false
+    else
+      return true
+    end
   end
 
 end
