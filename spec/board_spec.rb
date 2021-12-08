@@ -28,6 +28,8 @@ RSpec.describe "Cell" do
     expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to be(false)
     expect(board.valid_placement?(submarine, ["A2", "A3"])).to be(true)
     expect(board.valid_placement?(cruiser, ["A2", "A3", "A4"])).to be(true)
+    expect(board.valid_placement?(cruiser, ["A4", "B4", "C4"])).to be(true)
+    expect(board.valid_placement?(submarine, ["A2", "B2"])).to be(true)
   end
 
   it "validates consecutive coordinates" do
@@ -35,6 +37,14 @@ RSpec.describe "Cell" do
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
     expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to be(false)
+  end
+
+  it "coordinates can’t be diagonal" do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+    expect(board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to be(false)
+    expect(board.valid_placement?(submarine, ["C2", "D3"])).to be(false)
   end
 
 end

@@ -42,8 +42,10 @@ class Board
       z = numbers == (numbers[0]..numbers[-1]).to_a
     elsif numbers_strip == true
       z = letters == (letters[0]..letters[-1]).to_a
+    else
+      z = false
     end
-    boat.length == coordinates.count && z 
+    boat.length == coordinates.count && z
     #binding.pry
   end
 
