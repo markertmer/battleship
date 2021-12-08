@@ -1,3 +1,5 @@
+require 'pry'
+
 class Board
   attr_reader :cells
 
@@ -24,6 +26,25 @@ class Board
 
   def valid_coordinate?(coordinate)
     cells.include?(coordinate)
+  end
+
+  def valid_placement?(boat, coordinates)
+    letters = []
+    numbers = []
+    coordinates.each do |x|
+      array = x.split("")
+      letters << array[0]
+      numbers << array[1]
+    end
+    letters_strip = letters[0] == letters[-1]
+    numbers_strip = numbers[0] == numbers[-1]
+    if letters_strip == true
+      z = numbers == (numbers[0]..numbers[-1]).to_a
+    elsif numbers_strip == true
+      z = letters == (letters[0]..letters[-1]).to_a
+    end
+    boat.length == coordinates.count && z 
+    #binding.pry
   end
 
 end
