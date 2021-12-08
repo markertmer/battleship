@@ -1,4 +1,3 @@
-require './lib/ship'
 
 class Cell
   attr_reader :coordinate, :ship, :fired_upon
@@ -64,6 +63,6 @@ class Cell
     #   return "M"
     # elsif fired_upon? && !empty?  #@ship != nil
     #   return "H"
-    
+
   end
 end
