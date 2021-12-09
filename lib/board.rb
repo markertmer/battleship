@@ -49,4 +49,9 @@ class Board
     #binding.pry
   end
 
+  def place(boat, coordinates)
+    coordinates.each do |coord|
+      @cells[coord].place_ship(boat)
+    end
+  end
 end
