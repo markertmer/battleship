@@ -57,4 +57,13 @@ class Board
       end
     end
   end
+
+  def render(show_ships = false)
+    first_row = "A " + @cells["A1"].render(show_ships) + " " + @cells["A2"].render(show_ships) + " " + @cells["A3"].render(show_ships) + " " + @cells["A4"].render(show_ships) + " \n"
+    second_row = "B " + @cells["B1"].render(show_ships) + " " + @cells["B2"].render(show_ships) + " " + @cells["B3"].render(show_ships) + " " + @cells["B4"].render(show_ships) + " \n"
+    third_row = "C " + @cells["C1"].render(show_ships) + " " + @cells["C2"].render(show_ships) + " " + @cells["C3"].render(show_ships) + " " + @cells["C4"].render(show_ships) + " \n"
+    fourth_row = "D " + @cells["D1"].render(show_ships) + " " + @cells["D2"].render(show_ships) + " " + @cells["D3"].render(show_ships) + " " + @cells["D4"].render(show_ships) + " \n"
+
+    board_string = "  1 2 3 4 \n" + first_row + second_row + third_row + fourth_row
+  end
 end
