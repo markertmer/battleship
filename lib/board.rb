@@ -45,13 +45,16 @@ class Board
     else
       z = false
     end
-    boat.length == coordinates.count && z
-    #binding.pry
+    cell_ship = []
+    coordinates.each {|coord| cell_ship << @cells[coord].empty?}
+    boat.length == coordinates.count && z && !cell_ship.include?(false)
   end
 
   def place(boat, coordinates)
-    coordinates.each do |coord|
-      @cells[coord].place_ship(boat)
+    if valid_placement?(boat, coordinates)
+      coordinates.each do |coord|
+        @cells[coord].place_ship(boat)
+      end
     end
   end
 end
