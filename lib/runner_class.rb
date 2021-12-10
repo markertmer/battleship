@@ -54,13 +54,27 @@ class BattleshipRunner
     input = gets.chomp
     user_coords = coordinate_scrubber(input)
 
-    until @user_board.valid_placement?(@user_cruiser, user_coords) == true
+    until @user_board.valid_placement?(@user_cruiser, user_coords)
       puts "Those coordinates suck! Try again\n>"
       input = gets.chomp
       user_coords = coordinate_scrubber(input)
     end
-      binding.pry
     @user_board.place(@user_cruiser, user_coords)
+
+    puts @user_board.render
+    puts "Enter the squares for the Submarine (2 spaces):\n>"
+    input = gets.chomp
+    user_coords = coordinate_scrubber(input)
+
+    until @user_board.valid_placement?(@user_submarine, user_coords)
+      puts "Those coordinates suck! Try again\n>"
+      input = gets.chomp
+      user_coords = coordinate_scrubber(input)
+    end
+    @user_board.place(@user_submarine, user_coords)
+
+    puts @user_board.render(true)
+
   end
 
   def coordinate_scrubber(input)
@@ -79,7 +93,8 @@ class BattleshipRunner
         user_coords << coord
         coord = ""
       end
-      return user_coords
     end
+    return user_coords
+    #binding.pry
   end
 end
