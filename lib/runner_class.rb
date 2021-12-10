@@ -113,7 +113,7 @@ class BattleshipRunner
 
     @comp_board.cells[player_shot].fire_upon
 
-    puts "\n=============COMPUTER BOARD=============\n #{@comp_board.render}\n ==============PLAYER BOARD==============\n #{@user_board.render(true)}\n"
+    #puts "\n=============COMPUTER BOARD=============\n #{@comp_board.render}\n ==============PLAYER BOARD==============\n #{@user_board.render(true)}\n"
 
     puts "The computer will now take a shot at you!"
 
@@ -129,8 +129,27 @@ class BattleshipRunner
 
     puts "\n=============COMPUTER BOARD=============\n #{@comp_board.render}\n ==============PLAYER BOARD==============\n #{@user_board.render(true)}\n"
 
+    #binding.pry
 
+    if @comp_board.cells[player_shot].render == "M"
+      puts "Your shot on #{player_shot} was a miss."
+    elsif @comp_board.cells[player_shot].render == "H"
+      puts "Nice shot, you hit a ship on #{player_shot}"
+    elsif @comp_board.cells[player_shot].render == "X"
+      puts "You sunk the computers ship!"
+    end
 
+    if @user_board.cells[comp_shot].render == "M"
+      puts "My shot on #{comp_shot} was a miss."
+    elsif @user_board.cells[comp_shot].render == "H"
+      puts "I hit your ship on #{comp_shot}"
+    elsif @user_board.cells[comp_shot].render == "X"
+      puts "I sunk your ship!"
+    end
+
+  end
+
+  def results
   end
 
 end
