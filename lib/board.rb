@@ -39,7 +39,7 @@ class Board
     end
     letters_strip = letters.uniq.size == 1
     numbers_strip = numbers.uniq.size == 1
-    
+
     if letters_strip == true
       z = numbers == (numbers[0]..numbers[-1]).to_a
     elsif numbers_strip == true
@@ -68,4 +68,10 @@ class Board
 
     board_string = "  1 2 3 4 \n" + first_row + second_row + third_row + fourth_row
   end
+
+  def valid_shot?(player_shot)
+    @cells.keys.include?(player_shot)
+  end
+
+
 end
