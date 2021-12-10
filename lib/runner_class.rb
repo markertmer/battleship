@@ -7,7 +7,7 @@ class BattleshipRunner
 
   def initialize
     @player_board = Board.new
-    @computer_board = Board.new
+    @comp_board = Board.new
 
   end
 
@@ -26,24 +26,32 @@ class BattleshipRunner
 
   def comp_place
     @cruiser = Ship.new("cruiser", 3)
-    @submarine = Ship.new("submarine", 2)
-    x = cell_random(3)
-    if @computer_board.valid_placement?(@cruiser, x)
-      @computer_board.place(@cruiser, x)
-    else
-      x = cell_random(3)
-      
+
+    cells = ["A1", "B2", "C3"]
+    until @comp_board.valid_placement?(@cruiser, cells)
+      cells = @comp_board.cells.keys.sample(3)
     end
 
+    @comp_board.place(@cruiser, cells)
     binding.pry
+    # @cruiser = Ship.new("cruiser", 3)
+    # @submarine = Ship.new("submarine", 2)
+    # x = cell_random(3)
+    # if @comp_board.valid_placement?(@cruiser, x)
+    #   @comp_board.place(@cruiser, x)
+    # else
+    #   x = cell_random(3)
+    #
 
-    # until @computer_board.valid_placement?(@cruiser, x)
+
+
+    # until @comp_board.valid_placement?(@cruiser, x)
     #  x
-    end
+
   end
 
     def cell_random(num)
-      random_cells = @computer_board.cells.keys.sample(num)
+      random_cells = @comp_board.cells.keys.sample(num)
     end
 
 
