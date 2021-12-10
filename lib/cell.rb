@@ -21,7 +21,7 @@ class Cell
 
   def fire_upon
     if fired_upon?
-      #do nothing
+      puts "No problemo bro, keep wasting ammo"
     elsif !empty? #!fired_upon? && !empty?
       @fired_upon = true
       ship.hit
