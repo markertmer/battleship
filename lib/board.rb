@@ -39,8 +39,7 @@ class Board
     end
     letters_strip = letters.uniq.size == 1
     numbers_strip = numbers.uniq.size == 1
-    # letters_strip = letters[0] == letters[-1]
-    # numbers_strip = numbers[0] == numbers[-1]
+    
     if letters_strip == true
       z = numbers == (numbers[0]..numbers[-1]).to_a
     elsif numbers_strip == true

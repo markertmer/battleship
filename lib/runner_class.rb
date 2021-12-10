@@ -6,7 +6,7 @@ require 'pry'
 class BattleshipRunner
 
   def initialize
-    @player_board = Board.new
+    @user_board = Board.new
     @comp_board = Board.new
 
   end
@@ -14,6 +14,7 @@ class BattleshipRunner
   def start
     main_menu
     comp_place
+    user_place
   end
 
   def main_menu
@@ -26,6 +27,7 @@ class BattleshipRunner
 
   def comp_place
     @cruiser = Ship.new("cruiser", 3)
+    @submarine = Ship.new("submarine", 2)
 
     cells = ["A1", "B2", "C3"]
     until @comp_board.valid_placement?(@cruiser, cells)
@@ -33,27 +35,51 @@ class BattleshipRunner
     end
 
     @comp_board.place(@cruiser, cells)
-    binding.pry
-    # @cruiser = Ship.new("cruiser", 3)
-    # @submarine = Ship.new("submarine", 2)
-    # x = cell_random(3)
-    # if @comp_board.valid_placement?(@cruiser, x)
-    #   @comp_board.place(@cruiser, x)
-    # else
-    #   x = cell_random(3)
-    #
 
+    cells = ["A1", "B2"]
+    until @comp_board.valid_placement?(@submarine, cells)
+      cells = @comp_board.cells.keys.sample(2)
+    end
 
-
-    # until @comp_board.valid_placement?(@cruiser, x)
-    #  x
+    @comp_board.place(@submarine, cells)
 
   end
 
-    def cell_random(num)
-      random_cells = @comp_board.cells.keys.sample(num)
+  def user_place
+    @user_cruiser = Ship.new("cruiser", 3)
+    @user_submarine = Ship.new("submarine", 2)
+
+    puts @user_board.render
+    puts "Enter the squares for the Cruiser (3 spaces):\n>"
+    input = gets.chomp
+    user_coords = coordinate_scrubber(input)
+
+    until @user_board.valid_placement?(@user_cruiser, user_coords) == true
+      puts "Those coordinates suck! Try again\n>"
+      input = gets.chomp
+      user_coords = coordinate_scrubber(input)
     end
+      binding.pry
+    @user_board.place(@user_cruiser, user_coords)
+  end
 
+  def coordinate_scrubber(input)
+    input.delete!(",")
+    input.delete!(" ")
+    input.upcase!
 
-
+    array = input.split("").to_a
+    user_coords = []
+    coord = ""
+    array.each do |x|
+      if coord.length < 2
+        coord += x
+      end
+      if coord.length == 2
+        user_coords << coord
+        coord = ""
+      end
+      return user_coords
+    end
+  end
 end
