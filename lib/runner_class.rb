@@ -59,7 +59,6 @@ class BattleshipRunner
       input = gets.chomp
       user_coords = coordinate_scrubber(input)
     end
-      binding.pry
     @user_board.place(@user_cruiser, user_coords)
   end
 
@@ -79,7 +78,7 @@ class BattleshipRunner
         user_coords << coord
         coord = ""
       end
-      return user_coords
     end
+    return user_coords
   end
 end
