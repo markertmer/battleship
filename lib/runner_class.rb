@@ -6,14 +6,15 @@ require 'pry'
 class BattleshipRunner
 
   def initialize
-    @player_board = Board.new
-    @computer_board = Board.new
+    @user_board = Board.new
+    @comp_board = Board.new
 
   end
 
   def start
     main_menu
     comp_place
+    user_place
   end
 
   def main_menu
@@ -27,23 +28,58 @@ class BattleshipRunner
   def comp_place
     @cruiser = Ship.new("cruiser", 3)
     @submarine = Ship.new("submarine", 2)
-    x = cell_random(3)
-    if @computer_board.valid_placement?(@cruiser, x)
-      @computer_board.place(@cruiser, x)
-    else
-      x = cell_random(3)
+
+    cells = ["A1", "B2", "C3"]
+    until @comp_board.valid_placement?(@cruiser, cells)
+      cells = @comp_board.cells.keys.sample(3)
     end
 
-    binding.pry
+    @comp_board.place(@cruiser, cells)
 
-    # until @computer_board.valid_placement?(@cruiser, x)
-    #  x
+    cells = ["A1", "B2"]
+    until @comp_board.valid_placement?(@submarine, cells)
+      cells = @comp_board.cells.keys.sample(2)
+    end
+
+    @comp_board.place(@submarine, cells)
+
   end
 
-    def cell_random(num)
-      random_cells = @computer_board.cells.keys.sample(num)
+  def user_place
+    @user_cruiser = Ship.new("cruiser", 3)
+    @user_submarine = Ship.new("submarine", 2)
+
+    puts @user_board.render
+    puts "Enter the squares for the Cruiser (3 spaces):\n>"
+    input = gets.chomp
+    user_coords = coordinate_scrubber(input)
+
+    until @user_board.valid_placement?(@user_cruiser, user_coords) == true
+      puts "Those coordinates suck! Try again\n>"
+      input = gets.chomp
+      user_coords = coordinate_scrubber(input)
     end
+      binding.pry
+    @user_board.place(@user_cruiser, user_coords)
+  end
 
+  def coordinate_scrubber(input)
+    input.delete!(",")
+    input.delete!(" ")
+    input.upcase!
 
-
+    array = input.split("").to_a
+    user_coords = []
+    coord = ""
+    array.each do |x|
+      if coord.length < 2
+        coord += x
+      end
+      if coord.length == 2
+        user_coords << coord
+        coord = ""
+      end
+      return user_coords
+    end
+  end
 end
