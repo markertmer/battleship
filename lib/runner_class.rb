@@ -32,14 +32,12 @@ class BattleshipRunner
       @computer_board.place(@cruiser, x)
     else
       x = cell_random(3)
-      
     end
 
     binding.pry
 
     # until @computer_board.valid_placement?(@cruiser, x)
     #  x
-    end
   end
 
     def cell_random(num)
