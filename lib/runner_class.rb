@@ -102,54 +102,70 @@ class BattleshipRunner
     puts "\n=============COMPUTER BOARD=============\n #{@comp_board.render}\n ==============PLAYER BOARD==============\n #{@user_board.render(true)}\n"
     puts "Enter the coordinate for your shot:"
     input = gets.chomp
-    player_shot = coordinate_scrubber(input)[0]
+    @player_shot = coordinate_scrubber(input)[0]
     #binding.pry
 
-    until @comp_board.valid_shot?(player_shot)
+    until @comp_board.valid_shot?(@player_shot)
       puts "Please enter a valid coordinate:\n>"
       input = gets.chomp
-      player_shot = coordinate_scrubber(input)[0]
+      @player_shot = coordinate_scrubber(input)[0]
     end
 
-    @comp_board.cells[player_shot].fire_upon
+    @comp_board.cells[@player_shot].fire_upon
 
     #puts "\n=============COMPUTER BOARD=============\n #{@comp_board.render}\n ==============PLAYER BOARD==============\n #{@user_board.render(true)}\n"
 
     puts "The computer will now take a shot at you!"
 
-    comp_shot = @user_board.cells.keys.sample
+    @comp_shot = @user_board.cells.keys.sample
     #binding.pry
 
     # until @user_board.valid_shot?(comp_shot)
-    until @user_board.cells[comp_shot].fired_upon? == false
-      comp_shot = @user_board.cells.keys.sample
+    until @user_board.cells[@comp_shot].fired_upon? == false
+      @comp_shot = @user_board.cells.keys.sample
     end
 
-    @user_board.cells[comp_shot].fire_upon
+    @user_board.cells[@comp_shot].fire_upon
 
-    puts "\n=============COMPUTER BOARD=============\n #{@comp_board.render}\n ==============PLAYER BOARD==============\n #{@user_board.render(true)}\n"
+    puts "\n=============COMPUTER BOARD=============\n#{@comp_board.render}\n ==============PLAYER BOARD==============\n#{@user_board.render(true)}\n"
 
+    results
     #binding.pry
 
-    if @comp_board.cells[player_shot].render == "M"
-      puts "Your shot on #{player_shot} was a miss."
-    elsif @comp_board.cells[player_shot].render == "H"
-      puts "Nice shot, you hit a ship on #{player_shot}"
-    elsif @comp_board.cells[player_shot].render == "X"
-      puts "You sunk the computers ship!"
-    end
-
-    if @user_board.cells[comp_shot].render == "M"
-      puts "My shot on #{comp_shot} was a miss."
-    elsif @user_board.cells[comp_shot].render == "H"
-      puts "I hit your ship on #{comp_shot}"
-    elsif @user_board.cells[comp_shot].render == "X"
-      puts "I sunk your ship!"
-    end
+    # if @comp_board.cells[player_shot].render == "M"
+    #   puts "Your shot on #{player_shot} was a miss."
+    # elsif @comp_board.cells[player_shot].render == "H"
+    #   puts "Nice shot, you hit a ship on #{player_shot}"
+    # elsif @comp_board.cells[player_shot].render == "X"
+    #   puts "You sunk the computers ship!"
+    # end
+    #
+    # if @user_board.cells[comp_shot].render == "M"
+    #   puts "My shot on #{comp_shot} was a miss."
+    # elsif @user_board.cells[comp_shot].render == "H"
+    #   puts "I hit your ship on #{comp_shot}"
+    # elsif @user_board.cells[comp_shot].render == "X"
+    #   puts "I sunk your ship!"
+    # end
 
   end
 
   def results
+    if @comp_board.cells[@player_shot].render == "M"
+      puts "Your shot on #{@player_shot} was a miss."
+    elsif @comp_board.cells[@player_shot].render == "H"
+      puts "Nice shot, you hit a ship on #{player_shot}"
+    elsif @comp_board.cells[@player_shot].render == "X"
+      puts "You sunk the computers ship!"
+    end
+
+    if @user_board.cells[@comp_shot].render == "M"
+      puts "My shot on #{@comp_shot} was a miss."
+    elsif @user_board.cells[@comp_shot].render == "H"
+      puts "I hit your ship on #{@comp_shot}"
+    elsif @user_board.cells[@comp_shot].render == "X"
+      puts "I sunk your ship!"
+    end
   end
 
 end
