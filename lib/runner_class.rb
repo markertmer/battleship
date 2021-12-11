@@ -33,6 +33,12 @@ class BattleshipRunner
         value.ship.sunk?
       end
     end
+    if user_sunk
+      puts "Suck It. YOU LOSE!"
+    else
+      puts "Blast! You've defeated my naval armada. \nYou Win!"
+    end
+    main_menu
   end
 
   def main_menu
