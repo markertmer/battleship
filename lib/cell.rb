@@ -20,9 +20,9 @@ class Cell
   end
 
   def fire_upon
+    #binding.pry
     if fired_upon?
       #puts "No problemo bro, keep wasting ammo"
-      return "yes!"
     elsif !empty? #!fired_upon? && !empty?
       @fired_upon = true
       ship.hit

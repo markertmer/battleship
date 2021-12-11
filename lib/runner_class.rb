@@ -127,7 +127,11 @@ class BattleshipRunner
       @player_shot = coordinate_scrubber(input)[0]
     end
 
-    @comp_board.cells[@player_shot].fire_upon
+    if @comp_board.cells[@player_shot].fired_upon?
+      @already_fired = true
+    else
+      @comp_board.cells[@player_shot].fire_upon
+    end
 
     #puts "\n=============COMPUTER BOARD=============\n #{@comp_board.render}\n ==============PLAYER BOARD==============\n #{@user_board.render(true)}\n"
 
@@ -142,8 +146,9 @@ class BattleshipRunner
     end
 
     #binding.pry
-    @already_fired = @user_board.cells[@comp_shot].fire_upon
-
+    #@already_fired =
+    @user_board.cells[@comp_shot].fire_upon
+#binding.pry
     results
 
   end
@@ -151,23 +156,24 @@ class BattleshipRunner
   def results
 
      puts "\n=============COMPUTER BOARD=============\n#{@comp_board.render}\n==============PLAYER BOARD==============\n#{@user_board.render(true)}\n"
-
-    if @already_fired == "yes!"
-      puts "No problemo bro, keep wasting ammo"
+#binding.pry
+    if @already_fired == true
+      puts "No problemo, keep wasting your ammo!"
+      @already_fired = false
     elsif @comp_board.cells[@player_shot].render == "M"
-      puts "Your shot on #{@player_shot} was a miss."
+      puts "WIFF! Your shot on #{@player_shot} was a miss."
     elsif @comp_board.cells[@player_shot].render == "H"
-      puts "Nice shot, you hit my ship on #{@player_shot}"
+      puts "Dang it, you hit my ship on #{@player_shot}!"
     elsif @comp_board.cells[@player_shot].render == "X"
-      puts "You sunk my ship!"
+      puts "Dammit, you sunk my ship!"
     end
 
     if @user_board.cells[@comp_shot].render == "M"
       puts "My shot on #{@comp_shot} was a miss."
     elsif @user_board.cells[@comp_shot].render == "H"
-      puts "I hit your ship on #{@comp_shot}"
+      puts "Take that! I hit your ship on #{@comp_shot}!"
     elsif @user_board.cells[@comp_shot].render == "X"
-      puts "I sunk your ship!"
+      puts "IN YOUR FACE. I sunk your ship!!!!!!"
     end
   end
 
