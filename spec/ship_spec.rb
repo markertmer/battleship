@@ -31,5 +31,4 @@ RSpec.describe 'Ship' do
     cruiser = Ship.new("Cruiser", 3)
     expect(cruiser.hit).to eq(2)
   end
-
 end

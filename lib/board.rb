@@ -31,7 +31,6 @@ class Board
   def valid_placement?(boat, coordinates)
     letters = []
     numbers = []
-    # binding.pry
     coordinates.each do |x|
       array = x.split("")
       letters << array[0]
@@ -72,6 +71,4 @@ class Board
   def valid_shot?(player_shot)
     @cells.keys.include?(player_shot)
   end
-
-
 end

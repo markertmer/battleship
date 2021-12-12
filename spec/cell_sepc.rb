@@ -2,7 +2,6 @@ require './lib/ship'
 require './lib/cell'
 require 'pry'
 
-
 RSpec.describe "Cell" do
   it "exists" do
     cell = Cell.new("B4")
@@ -11,13 +10,13 @@ RSpec.describe "Cell" do
 
   it "Checks Location of Argunment" do
     cell = Cell.new("B4")
-    #binding.pry
+
     expect(cell.coordinate).to eq("B4")
   end
 
   it "Check to see if ship is on that cell" do
     cell = Cell.new("B4")
-    #binding.pry
+
     expect(cell.ship).to be nil
   end
 
@@ -37,9 +36,9 @@ RSpec.describe "Cell" do
   it 'Cell by defult is not fired upon' do
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
-    #binding.pry
+
     cell.place_ship(cruiser)
-    #binding.pry
+
     expect(cell.fired_upon?).to be(false)
   end
 
@@ -47,7 +46,7 @@ RSpec.describe "Cell" do
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
-    #binding.pry
+
     cell.fire_upon
     expect(cell.ship.health).to eq(2)
     expect(cell.fired_upon?).to be(true)
@@ -57,7 +56,7 @@ RSpec.describe "Cell" do
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
-    #binding.pry
+
     cell.fire_upon
     cell.fire_upon
     expect(cell.ship.health).to eq(2)
@@ -66,7 +65,7 @@ RSpec.describe "Cell" do
 
   it 'exists' do
     cell_1 = Cell.new("B4")
-    #binding.pry
+
     expect(cell_1).to be_instance_of(Cell)
   end
 
@@ -110,5 +109,4 @@ RSpec.describe "Cell" do
     expect(cruiser.sunk?).to be true
     expect(cell_2.render).to eq("X")
   end
-
 end

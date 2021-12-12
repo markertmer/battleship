@@ -8,37 +8,16 @@ class BattleshipRunner
   def initialize
     @user_board = Board.new
     @comp_board = Board.new
-
   end
 
   def start
     main_menu
     comp_place
     user_place
-    puts "\n=============COMPUTER BOARD=============\n#{@comp_board.render}\n==============PLAYER BOARD==============\n#{@user_board.render(true)}\n"
-    user_ships = @user_board.cells.select do |key,value|
-      value.ship != nil
-    end
-    comp_ships = @comp_board.cells.select do |key,value|
-      value.ship != nil
-    end
-    user_sunk = false
-    comp_sunk = false
-    until user_sunk || comp_sunk
-      turn
-      user_sunk = user_ships.all? do |key,value|
-        value.ship.sunk?
-      end
-      comp_sunk = comp_ships.all? do |key,value|
-        value.ship.sunk?
-      end
-    end
-    if user_sunk
-      puts "Suck It. YOU LOSE!"
-    else
-      puts "Blast! You've defeated my naval armada. \nYou Win!"
-    end
-    main_menu
+    game_loop
+    end_game
+    initialize
+    start
   end
 
   def main_menu
@@ -66,7 +45,6 @@ class BattleshipRunner
     end
 
     @comp_board.place(@submarine, cells)
-
   end
 
   def user_place
@@ -98,7 +76,6 @@ class BattleshipRunner
     @user_board.place(@user_submarine, user_coords)
 
     puts @user_board.render(true)
-
   end
 
   def coordinate_scrubber(input)
@@ -121,11 +98,31 @@ class BattleshipRunner
     return user_coords
   end
 
+  def game_loop
+    puts "\n=============COMPUTER BOARD=============\n#{@comp_board.render}\n==============PLAYER BOARD==============\n#{@user_board.render(true)}\n"
+    user_ships = @user_board.cells.select do |key,value|
+      value.ship != nil
+    end
+    comp_ships = @comp_board.cells.select do |key,value|
+      value.ship != nil
+    end
+    @user_sunk = false
+    comp_sunk = false
+    until @user_sunk || comp_sunk
+      turn
+      @user_sunk = user_ships.all? do |key,value|
+        value.ship.sunk?
+      end
+      comp_sunk = comp_ships.all? do |key,value|
+        value.ship.sunk?
+      end
+    end
+  end
+
   def turn
     puts "Enter the coordinate for your shot:\n>"
     input = gets.chomp
     @player_shot = coordinate_scrubber(input)[0]
-    #binding.pry
 
     until @comp_board.valid_shot?(@player_shot)
       puts "Please enter a valid coordinate:\n>"
@@ -139,22 +136,15 @@ class BattleshipRunner
       @comp_board.cells[@player_shot].fire_upon
     end
 
-    #puts "\n=============COMPUTER BOARD=============\n #{@comp_board.render}\n ==============PLAYER BOARD==============\n #{@user_board.render(true)}\n"
-
     puts "The computer will now take a shot at you!"
 
     @comp_shot = @user_board.cells.keys.sample
-    #binding.pry
 
-    # until @user_board.valid_shot?(comp_shot)
     until @user_board.cells[@comp_shot].fired_upon? == false
       @comp_shot = @user_board.cells.keys.sample
     end
 
-    #binding.pry
-    #@already_fired =
     @user_board.cells[@comp_shot].fire_upon
-#binding.pry
     results
 
   end
@@ -162,7 +152,6 @@ class BattleshipRunner
   def results
 
      puts "\n=============COMPUTER BOARD=============\n#{@comp_board.render}\n==============PLAYER BOARD==============\n#{@user_board.render(true)}\n"
-#binding.pry
     if @already_fired == true
       puts "No problemo, keep wasting your ammo!"
       @already_fired = false
@@ -183,5 +172,12 @@ class BattleshipRunner
     end
   end
 
+  def end_game
+    if @user_sunk
+      puts "Suck it, YOU LOSE!\n"
+    else
+      puts "Blast! You've defeated my naval armada. \nYou Win!\n"
+    end
+  end
 
 end
