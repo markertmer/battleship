@@ -159,7 +159,7 @@ class BattleshipRunner
     elsif @comp_board.cells[@user_shot].render == "H"
       puts "Dang it, you hit my ship on #{@user_shot}!"
     elsif @comp_board.cells[@user_shot].render == "X"
-      puts "Dammit, you sunk my ship!"
+      puts "Dammit, you sunk my #{@comp_board.cells[@user_shot].ship.name}!"
     end
 
     if @user_board.cells[@comp_shot].render == "M"
@@ -167,15 +167,17 @@ class BattleshipRunner
     elsif @user_board.cells[@comp_shot].render == "H"
       puts "Take that! I hit your ship on #{@comp_shot}!"
     elsif @user_board.cells[@comp_shot].render == "X"
-      puts "IN YOUR FACE. I sunk your ship!!!!!!"
+      puts "IN YOUR FACE. I sunk your #{@user_board.cells[@comp_shot].ship.name}!!!!!!"
     end
   end
 
   def end_game
-    if @user_sunk
-      puts "Suck it, YOU LOSE!\n"
-    else
-      puts "Blast! You've defeated my naval armada. \nYou Win!\n"
+    if @user_sunk && @comp_sunk
+      puts "You sunk all my ships, but I'm taking you down with me!\nTHE END"
+    elsif @user_sunk
+      puts "Suck it, YOU LOSE!\nGAME OVER"
+    elsif @comp_sunk
+      puts "Blast! You've defeated my naval armada. \nYOU WIN!\n"
     end
   end
 end
