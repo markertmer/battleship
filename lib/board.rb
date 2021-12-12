@@ -27,20 +27,37 @@ class Board
   end
 
   def valid_placement?(boat, coordinates)
-    letters = coordinates.map { |x| x.split("")[0] }
-    numbers = coordinates.map { |x| x.split("")[1] }
-
-     if letters.uniq.size == 1
-      consecutive = numbers == (numbers[0]..numbers[-1]).to_a
-    elsif numbers.uniq.size == 1
-      consecutive = letters == (letters[0]..letters[-1]).to_a
-    else
-      consecutive = false
-    end
-    empty_cell = []
-    coordinates.each {|coord| empty_cell << @cells[coord].empty?}
-    boat.length == coordinates.count && consecutive && !empty_cell.include?(false)
+    right_number?(boat, coordinates) &&
+    all_on_board?(coordinates) &&
+    all_empty?(coordinates) &&
+    consecutive?(coordinates)
   end
+
+  def right_number?(boat, coordinates)
+    boat.length == coordinates.count
+  end
+
+  def all_on_board?(coordinates)
+    coordinates.all? { |coord| valid_coordinate?(coord) }
+  end
+
+  def all_empty?(coordinates)
+    coordinates.all? { |coord| @cells[coord].empty? }
+  end
+
+  def consecutive?(coordinates)
+    letters = (coordinates.map { |x| x.split("")[0] }).sort
+    numbers = (coordinates.map { |x| x.split("")[1] }).sort
+
+    if letters.uniq.size == 1
+      numbers == (numbers[0]..numbers[-1]).to_a
+    elsif numbers.uniq.size == 1
+      letters == (letters[0]..letters[-1]).to_a
+    else
+      return false
+    end
+  end
+
   # def valid_placement?(boat, coordinates)
   #   letters = []
   #   numbers = []
@@ -65,11 +82,11 @@ class Board
   # end
 
   def place(boat, coordinates)
-    if valid_placement?(boat, coordinates)
+    # if valid_placement?(boat, coordinates)
       coordinates.each do |coord|
         @cells[coord].place_ship(boat)
       end
-    end
+    # end
   end
 
   def render(show_ships = false)
