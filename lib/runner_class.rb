@@ -137,6 +137,7 @@ class BattleshipRunner
     end
 
     puts "The computer will now take a shot at you!"
+    sleep 2
 
     @comp_shot = @user_board.cells.keys.sample
 
@@ -146,11 +147,9 @@ class BattleshipRunner
 
     @user_board.cells[@comp_shot].fire_upon
     results
-
   end
 
   def results
-
      puts "\n=============COMPUTER BOARD=============\n#{@comp_board.render}\n==============PLAYER BOARD==============\n#{@user_board.render(true)}\n"
     if @already_fired == true
       puts "No problemo, keep wasting your ammo!"
@@ -179,5 +178,4 @@ class BattleshipRunner
       puts "Blast! You've defeated my naval armada. \nYou Win!\n"
     end
   end
-
 end

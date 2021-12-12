@@ -1,5 +1,3 @@
-require 'pry'
-
 class Board
   attr_reader :cells
 
@@ -29,27 +27,42 @@ class Board
   end
 
   def valid_placement?(boat, coordinates)
-    letters = []
-    numbers = []
-    coordinates.each do |x|
-      array = x.split("")
-      letters << array[0]
-      numbers << array[1]
-    end
-    letters_strip = letters.uniq.size == 1
-    numbers_strip = numbers.uniq.size == 1
+    letters = coordinates.map { |x| x.split("")[0] }
+    numbers = coordinates.map { |x| x.split("")[1] }
 
-    if letters_strip == true
-      z = numbers == (numbers[0]..numbers[-1]).to_a
-    elsif numbers_strip == true
-      z = letters == (letters[0]..letters[-1]).to_a
+     if letters.uniq.size == 1
+      consecutive = numbers == (numbers[0]..numbers[-1]).to_a
+    elsif numbers.uniq.size == 1
+      consecutive = letters == (letters[0]..letters[-1]).to_a
     else
-      z = false
+      consecutive = false
     end
-    cell_ship = []
-    coordinates.each {|coord| cell_ship << @cells[coord].empty?}
-    boat.length == coordinates.count && z && !cell_ship.include?(false)
+    empty_cell = []
+    coordinates.each {|coord| empty_cell << @cells[coord].empty?}
+    boat.length == coordinates.count && consecutive && !empty_cell.include?(false)
   end
+  # def valid_placement?(boat, coordinates)
+  #   letters = []
+  #   numbers = []
+  #   coordinates.each do |x|
+  #     array = x.split("")
+  #     letters << array[0]
+  #     numbers << array[1]
+  #   end
+  #   letters_strip = letters.uniq.size == 1
+  #   numbers_strip = numbers.uniq.size == 1
+  #
+  #   if letters_strip == true
+  #     z = numbers == (numbers[0]..numbers[-1]).to_a
+  #   elsif numbers_strip == true
+  #     z = letters == (letters[0]..letters[-1]).to_a
+  #   else
+  #     z = false
+  #   end
+  #   cell_ship = []
+  #   coordinates.each {|coord| cell_ship << @cells[coord].empty?}
+  #   boat.length == coordinates.count && z && !cell_ship.include?(false)
+  # end
 
   def place(boat, coordinates)
     if valid_placement?(boat, coordinates)
