@@ -23,8 +23,12 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    cells.include?(coordinate)
+    @cells.include?(coordinate)
   end
+
+  # def valid_shot?(player_shot)
+  #   @cells.keys.include?(player_shot)
+  # end
 
   def valid_placement?(boat, coordinates)
     right_number?(boat, coordinates) &&
@@ -95,10 +99,7 @@ class Board
     third_row = "C " + @cells["C1"].render(show_ships) + " " + @cells["C2"].render(show_ships) + " " + @cells["C3"].render(show_ships) + " " + @cells["C4"].render(show_ships) + " \n"
     fourth_row = "D " + @cells["D1"].render(show_ships) + " " + @cells["D2"].render(show_ships) + " " + @cells["D3"].render(show_ships) + " " + @cells["D4"].render(show_ships) + " \n"
 
-    board_string = "  1 2 3 4 \n" + first_row + second_row + third_row + fourth_row
+    return "  1 2 3 4 \n" + first_row + second_row + third_row + fourth_row
   end
 
-  def valid_shot?(player_shot)
-    @cells.keys.include?(player_shot)
-  end
 end

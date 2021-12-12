@@ -29,51 +29,51 @@ class BattleshipRunner
   end
 
   def comp_place
-    @cruiser = Ship.new("cruiser", 3)
-    @submarine = Ship.new("submarine", 2)
+    cruiser = Ship.new("cruiser", 3)
+    submarine = Ship.new("submarine", 2)
 
     cells = ["A1", "B2", "C3"]
-    until @comp_board.valid_placement?(@cruiser, cells)
+    until @comp_board.valid_placement?(cruiser, cells)
       cells = @comp_board.cells.keys.sample(3)
     end
 
-    @comp_board.place(@cruiser, cells)
+    @comp_board.place(cruiser, cells)
 
     cells = ["A1", "B2"]
-    until @comp_board.valid_placement?(@submarine, cells)
+    until @comp_board.valid_placement?(submarine, cells)
       cells = @comp_board.cells.keys.sample(2)
     end
 
-    @comp_board.place(@submarine, cells)
+    @comp_board.place(submarine, cells)
   end
 
   def user_place
-    @user_cruiser = Ship.new("cruiser", 3)
-    @user_submarine = Ship.new("submarine", 2)
+    cruiser = Ship.new("cruiser", 3)
+    submarine = Ship.new("submarine", 2)
 
     puts @user_board.render
     puts "Enter the squares for the Cruiser (3 spaces):\n>"
     input = gets.chomp
     user_coords = coordinate_scrubber(input)
 
-    until @user_board.valid_placement?(@user_cruiser, user_coords)
+    until @user_board.valid_placement?(cruiser, user_coords)
       puts "Those coordinates suck! Try again\n>"
       input = gets.chomp
       user_coords = coordinate_scrubber(input)
     end
-    @user_board.place(@user_cruiser, user_coords)
+    @user_board.place(cruiser, user_coords)
 
     puts @user_board.render(true)
     puts "Enter the squares for the Submarine (2 spaces):\n>"
     input = gets.chomp
     user_coords = coordinate_scrubber(input)
 
-    until @user_board.valid_placement?(@user_submarine, user_coords)
+    until @user_board.valid_placement?(submarine, user_coords)
       puts "Those coordinates suck! Try again\n>"
       input = gets.chomp
       user_coords = coordinate_scrubber(input)
     end
-    @user_board.place(@user_submarine, user_coords)
+    @user_board.place(submarine, user_coords)
 
     puts @user_board.render(true)
   end
@@ -107,13 +107,13 @@ class BattleshipRunner
       value.ship != nil
     end
     @user_sunk = false
-    comp_sunk = false
-    until @user_sunk || comp_sunk
+    @comp_sunk = false
+    until @user_sunk || @comp_sunk
       turn
       @user_sunk = user_ships.all? do |key,value|
         value.ship.sunk?
       end
-      comp_sunk = comp_ships.all? do |key,value|
+      @comp_sunk = comp_ships.all? do |key,value|
         value.ship.sunk?
       end
     end
@@ -122,21 +122,21 @@ class BattleshipRunner
   def turn
     puts "Enter the coordinate for your shot:\n>"
     input = gets.chomp
-    @player_shot = coordinate_scrubber(input)[0]
+    @user_shot = coordinate_scrubber(input)[0]
 
-    until @comp_board.valid_shot?(@player_shot)
+    until @comp_board.valid_coordinate?(@user_shot)
       puts "Please enter a valid coordinate:\n>"
       input = gets.chomp
-      @player_shot = coordinate_scrubber(input)[0]
+      @user_shot = coordinate_scrubber(input)[0]
     end
 
-    if @comp_board.cells[@player_shot].fired_upon?
+    if @comp_board.cells[@user_shot].fired_upon?
       @already_fired = true
     else
-      @comp_board.cells[@player_shot].fire_upon
+      @comp_board.cells[@user_shot].fire_upon
     end
 
-    puts "The computer will now take a shot at you!"
+    puts "While that's in the air, I will now take a shot at you!"
     sleep 2
 
     @comp_shot = @user_board.cells.keys.sample
@@ -154,11 +154,11 @@ class BattleshipRunner
     if @already_fired == true
       puts "No problemo, keep wasting your ammo!"
       @already_fired = false
-    elsif @comp_board.cells[@player_shot].render == "M"
-      puts "WIFF! Your shot on #{@player_shot} was a miss."
-    elsif @comp_board.cells[@player_shot].render == "H"
-      puts "Dang it, you hit my ship on #{@player_shot}!"
-    elsif @comp_board.cells[@player_shot].render == "X"
+    elsif @comp_board.cells[@user_shot].render == "M"
+      puts "WIFF! Your shot on #{@user_shot} was a miss."
+    elsif @comp_board.cells[@user_shot].render == "H"
+      puts "Dang it, you hit my ship on #{@user_shot}!"
+    elsif @comp_board.cells[@user_shot].render == "X"
       puts "Dammit, you sunk my ship!"
     end
 
