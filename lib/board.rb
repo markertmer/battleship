@@ -17,7 +17,7 @@ class Board
     coords.each do |coord|
       @cells[coord] = Cell.new(coord)
     end
-    #binding.pry
+    #binding.pry 
     # @cells = {
       # "A1" => Cell.new("A1"),
       # "A2" => Cell.new("A2"),
