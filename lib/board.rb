@@ -1,7 +1,7 @@
 class Board
   attr_reader :cells
 
-  def initialize(size)
+  def initialize(size = 4)
     key = "1A2B3C4D5E6F7G8H9I"
     numbers = ("1".."#{size}").to_a
     #letters = []
@@ -17,7 +17,7 @@ class Board
     coords.each do |coord|
       @cells[coord] = Cell.new(coord)
     end
-    binding.pry
+    #binding.pry
     # @cells = {
       # "A1" => Cell.new("A1"),
       # "A2" => Cell.new("A2"),
@@ -112,7 +112,31 @@ class Board
   def render(show_ships = false)
     rows = @cells.keys.to_a.map do |x|
       x.split("")[0]
-      
+    end
+    rows.uniq!
+    columns = @cells.keys.to_a.map do |x|
+      x.split("")[1]
+    end
+    columns.uniq!
+
+    row = ""
+    rows.each do |x|
+      row = row + "#{x} "
+      row_cells = []
+      columns.each do |y|
+        row_cells << x + y
+      end
+      row_cells.each do |z|
+        row = row + @cells[z].render(show_ships) + " "
+      end
+      row = row + "\n"
+    end
+
+    return "  " + columns.join(" ") + " \n" + row
+
+
+    #("#{columns[0]} ".."#{columns[-1]} ")
+
 
     # first_row = "A " + @cells["A1"].render(show_ships) + " " + @cells["A2"].render(show_ships) + " " + @cells["A3"].render(show_ships) + " " + @cells["A4"].render(show_ships) + " \n"
     # second_row = "B " + @cells["B1"].render(show_ships) + " " + @cells["B2"].render(show_ships) + " " + @cells["B3"].render(show_ships) + " " + @cells["B4"].render(show_ships) + " \n"

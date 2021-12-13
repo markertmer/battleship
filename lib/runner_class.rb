@@ -6,12 +6,13 @@ require 'pry'
 class BattleshipRunner
 
   def initialize
-    @user_board = Board.new
-    @comp_board = Board.new
+    # @user_board = Board.new
+    # @comp_board = Board.new
   end
 
   def start
     main_menu
+    choose_board
     comp_place
     user_place
     game_loop
@@ -26,6 +27,18 @@ class BattleshipRunner
     if input == "q"
       exit
     end
+  end
+
+  def choose_board
+    print "How large of a board do you want to play on?\n Enter a number from 4 to 9.\n>"
+    size = gets.chomp.to_i
+    until [4, 5, 6, 7, 8, 9].include?(size)
+      puts "That's not an option, dummy!"
+      size = gets.chomp.to_i
+    end
+
+    @user_board = Board.new(size)
+    @comp_board = Board.new(size)
   end
 
   def comp_place
