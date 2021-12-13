@@ -4,7 +4,7 @@ class Board
   def initialize(size)
     key = "1A2B3C4D5E6F7G8H9I"
     numbers = ("1".."#{size}").to_a
-    letters = []
+    #letters = []
     coords = []
     numbers.each do |num|
       index = key.index(num)
@@ -17,7 +17,7 @@ class Board
     coords.each do |coord|
       @cells[coord] = Cell.new(coord)
     end
-    #binding.pry 
+    binding.pry
     # @cells = {
       # "A1" => Cell.new("A1"),
       # "A2" => Cell.new("A2"),
@@ -110,12 +110,16 @@ class Board
   end
 
   def render(show_ships = false)
-    first_row = "A " + @cells["A1"].render(show_ships) + " " + @cells["A2"].render(show_ships) + " " + @cells["A3"].render(show_ships) + " " + @cells["A4"].render(show_ships) + " \n"
-    second_row = "B " + @cells["B1"].render(show_ships) + " " + @cells["B2"].render(show_ships) + " " + @cells["B3"].render(show_ships) + " " + @cells["B4"].render(show_ships) + " \n"
-    third_row = "C " + @cells["C1"].render(show_ships) + " " + @cells["C2"].render(show_ships) + " " + @cells["C3"].render(show_ships) + " " + @cells["C4"].render(show_ships) + " \n"
-    fourth_row = "D " + @cells["D1"].render(show_ships) + " " + @cells["D2"].render(show_ships) + " " + @cells["D3"].render(show_ships) + " " + @cells["D4"].render(show_ships) + " \n"
+    rows = @cells.keys.to_a.map do |x|
+      x.split("")[0]
+      
 
-    return "  1 2 3 4 \n" + first_row + second_row + third_row + fourth_row
+    # first_row = "A " + @cells["A1"].render(show_ships) + " " + @cells["A2"].render(show_ships) + " " + @cells["A3"].render(show_ships) + " " + @cells["A4"].render(show_ships) + " \n"
+    # second_row = "B " + @cells["B1"].render(show_ships) + " " + @cells["B2"].render(show_ships) + " " + @cells["B3"].render(show_ships) + " " + @cells["B4"].render(show_ships) + " \n"
+    # third_row = "C " + @cells["C1"].render(show_ships) + " " + @cells["C2"].render(show_ships) + " " + @cells["C3"].render(show_ships) + " " + @cells["C4"].render(show_ships) + " \n"
+    # fourth_row = "D " + @cells["D1"].render(show_ships) + " " + @cells["D2"].render(show_ships) + " " + @cells["D3"].render(show_ships) + " " + @cells["D4"].render(show_ships) + " \n"
+    #
+    # return "  1 2 3 4 \n" + first_row + second_row + third_row + fourth_row
   end
 
 end
