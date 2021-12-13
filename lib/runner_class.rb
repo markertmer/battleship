@@ -13,7 +13,10 @@ class BattleshipRunner
   def start
     main_menu
     choose_board
+<<<<<<< HEAD
     #choose_ships
+=======
+>>>>>>> fb6afe5d82e64f40b8eea361e4e71f79f3c1df6d
     comp_place
     user_place
     game_loop
@@ -32,6 +35,7 @@ class BattleshipRunner
 
   def choose_board
     print "How large of a board do you want to play on?\n Enter a number from 4 to 9.\n>"
+<<<<<<< HEAD
     size = gets.chomp.to_i
     until [4, 5, 6, 7, 8, 9].include?(size)
       puts "That's not an option, dummy!"
@@ -40,6 +44,63 @@ class BattleshipRunner
 
     @user_board = Board.new(size)
     @comp_board = Board.new(size)
+=======
+    @size = gets.chomp.to_i
+    until [4, 5, 6, 7, 8, 9].include?(@size)
+      puts "That's not an option, dummy!"
+      @size = gets.chomp.to_i
+    end
+
+    @user_board = Board.new(@size)
+    @comp_board = Board.new(@size)
+  end
+
+  def choose_ships
+    @ships = {
+      "diver" => 1,
+      "submarine" => 2,
+      "cruiser" => 3,
+      "frigate" => 4,
+      "artillery ship" => 5,
+      "danger boat" => 6,
+      "aircraft carrier" => 7,
+      "destroyer" => 8,
+      "mega ultra war ship" => 9
+    }
+    puts "You have #{units(@size)} ship length units.\n"
+    @ships.each do |key, value|
+      puts "#{key.capitalize}: #{value}"
+    end
+    puts "Choose your ships by entering the length number of your desired boats one at a time.\n>"
+    remaining_units = units(@size)
+    choice = gets.chomp.to_i
+    until remaining_units == 0
+      if [1, 2, 3, 4, 5, 6, 7, 8, 9].include?(choice) == false
+        puts "Seriously?! Are you typing with your face? Try again.\n>"
+      elsif choice > @size
+        puts "Did you really think that ship would fit on your board? Choose something smaller.\n>"
+      elsif choice > remaining_units
+        puts "You can't afford that boat. Choose something smaller.\n>"
+      else
+        Ship.new(@ships[choice], choice)
+        remaining_units -= choice
+        puts "You have #{remaining_units} units left, choose wiseley.\n>"
+      end
+      choice = gets.chomp.to_i
+    end
+  end
+
+  def units(size)
+    chart = {
+      4 => 5
+      5 => 8
+      6 => 12
+      7 => 16
+      8 => 21
+      9 => 27
+    }
+    return chart[size]
+>>>>>>> fb6afe5d82e64f40b8eea361e4e71f79f3c1df6d
   end
 
   def comp_place
