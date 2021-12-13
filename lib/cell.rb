@@ -1,4 +1,3 @@
-
 class Cell
   attr_reader :coordinate, :ship, :fired_upon
 
@@ -21,11 +20,10 @@ class Cell
 
   def fire_upon
     if fired_upon?
-      #do nothing
-    elsif !empty? #!fired_upon? && !empty?
+    elsif !empty?
       @fired_upon = true
       ship.hit
-    else  #elsif !fired_upon?
+    else
       @fired_upon = true
     end
   end
@@ -52,17 +50,5 @@ class Cell
         return "."
       end
     end
-
-    # if !empty? && @ship.sunk?
-    #   return "X"
-    # elsif show == true && !empty?  #@ship != nil
-    #   return "S"
-    # elsif @fired_upon == false
-    #   return "."
-    # elsif fired_upon? && empty?  #@ship = nil
-    #   return "M"
-    # elsif fired_upon? && !empty?  #@ship != nil
-    #   return "H"
-
   end
 end

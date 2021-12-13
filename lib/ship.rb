@@ -24,6 +24,4 @@ class Ship
   def hit
     @health = @health - 1
   end
-
-
 end
