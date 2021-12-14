@@ -13,10 +13,7 @@ class BattleshipRunner
   def start
     main_menu
     choose_board
-<<<<<<< HEAD
-    #choose_ships
-=======
->>>>>>> fb6afe5d82e64f40b8eea361e4e71f79f3c1df6d
+    choose_ships
     comp_place
     user_place
     game_loop
@@ -35,16 +32,6 @@ class BattleshipRunner
 
   def choose_board
     print "How large of a board do you want to play on?\n Enter a number from 4 to 9.\n>"
-<<<<<<< HEAD
-    size = gets.chomp.to_i
-    until [4, 5, 6, 7, 8, 9].include?(size)
-      puts "That's not an option, dummy!"
-      size = gets.chomp.to_i
-    end
-
-    @user_board = Board.new(size)
-    @comp_board = Board.new(size)
-=======
     @size = gets.chomp.to_i
     until [4, 5, 6, 7, 8, 9].include?(@size)
       puts "That's not an option, dummy!"
@@ -67,40 +54,65 @@ class BattleshipRunner
       "destroyer" => 8,
       "mega ultra war ship" => 9
     }
-    puts "You have #{units(@size)} ship length units.\n"
+    puts "Now it's time to choose your ships. You have #{units(@size)} ship units to work with. \nHere are your options:\n"
+    sleep 3
+    ship_list = ""
     @ships.each do |key, value|
-      puts "#{key.capitalize}: #{value}"
+      ship_list += "  #{key.capitalize}: #{value} units\n"
     end
-    puts "Choose your ships by entering the length number of your desired boats one at a time.\n>"
+    puts ship_list
+    sleep 2
+    puts "Choose your ships by entering the unit number of your desired boats, one at a time.\n>"
     remaining_units = units(@size)
+    @chosen_ships = []
     choice = gets.chomp.to_i
     until remaining_units == 0
       if [1, 2, 3, 4, 5, 6, 7, 8, 9].include?(choice) == false
-        puts "Seriously?! Are you typing with your face? Try again.\n>"
+        puts "Seriously?! Are you typing with your face?"
+        sleep 2
+        puts ship_list
+        puts " Try again.\n>"
+        choice = gets.chomp.to_i
       elsif choice > @size
-        puts "Did you really think that ship would fit on your board? Choose something smaller.\n>"
+        puts "Did you really think that ship would fit on your board?"
+        sleep 2
+        puts ship_list
+        puts "Choose something smaller.\n>"
+        choice = gets.chomp.to_i
       elsif choice > remaining_units
-        puts "You can't afford that boat. Choose something smaller.\n>"
+        puts "You can't afford that boat."
+        sleep 2
+        puts ship_list
+        puts "Choose something smaller.\n>"
+        choice = gets.chomp.to_i
       else
-        Ship.new(@ships[choice], choice)
+        Ship.new(@ships.key(choice), choice)
         remaining_units -= choice
-        puts "You have #{remaining_units} units left, choose wiseley.\n>"
+        @chosen_ships << @ships.key(choice)
+        if remaining_units > 0
+          puts "You have selected a(n) #{@ships.key(choice)}.\n"
+          sleep 2
+          puts ship_list
+          puts "You have #{remaining_units} ship units left, choose wiseley!\n>"
+          choice = gets.chomp.to_i
+        else
+          puts "..and your #{@ships.key(choice)} completes your armada. \nI will use the same ships as you!"
+          sleep 3
+        end
       end
-      choice = gets.chomp.to_i
     end
   end
 
   def units(size)
     chart = {
-      4 => 5
-      5 => 8
-      6 => 12
-      7 => 16
-      8 => 21
+      4 => 5,
+      5 => 8,
+      6 => 12,
+      7 => 16,
+      8 => 21,
       9 => 27
     }
     return chart[size]
->>>>>>> fb6afe5d82e64f40b8eea361e4e71f79f3c1df6d
   end
 
   def comp_place
