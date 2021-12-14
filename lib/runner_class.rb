@@ -6,8 +6,6 @@ require 'pry'
 class BattleshipRunner
 
   def initialize
-    # @user_board = Board.new
-    # @comp_board = Board.new
   end
 
   def start
@@ -116,53 +114,37 @@ class BattleshipRunner
   end
 
   def comp_place
-    cruiser = Ship.new("cruiser", 3)
-    submarine = Ship.new("submarine", 2)
-
-    cells = ["A1", "B2", "C3"]
-    until @comp_board.valid_placement?(cruiser, cells)
-      cells = @comp_board.cells.keys.sample(3)
+    @chosen_ships.each do |ship|
+      boat = Ship.new(ship, @ships[ship])
+      cells = @comp_board.cells.keys.sample(@ships[ship])
+      until @comp_board.valid_placement?(boat, cells)
+        cells = @comp_board.cells.keys.sample(@ships[ship])
+      end
+      @comp_board.place(boat, cells)
     end
-
-    @comp_board.place(cruiser, cells)
-
-    cells = ["A1", "B2"]
-    until @comp_board.valid_placement?(submarine, cells)
-      cells = @comp_board.cells.keys.sample(2)
-    end
-
-    @comp_board.place(submarine, cells)
-  end
+   end
 
   def user_place
-    cruiser = Ship.new("cruiser", 3)
-    submarine = Ship.new("submarine", 2)
-
     puts @user_board.render
-    puts "Enter the squares for the Cruiser (3 spaces):\n>"
-    input = gets.chomp
-    user_coords = coordinate_scrubber(input)
-
-    until @user_board.valid_placement?(cruiser, user_coords)
-      puts "Those coordinates suck! Try again\n>"
+    @chosen_ships.each do |ship|
+      boat = Ship.new(ship, @ships[ship])
+      puts "Enter the squares for your #{ship} (#{@ships[ship]} spaces):\n>"
       input = gets.chomp
       user_coords = coordinate_scrubber(input)
+
+      until @user_board.valid_placement?(boat, user_coords)
+        puts "Those coordinates suck!"
+        puts @user_board.render(true)
+        puts "Try again\n>"
+        input = gets.chomp
+        user_coords = coordinate_scrubber(input)
+      end
+      @user_board.place(boat, user_coords)
+      puts @user_board.render(true)
     end
-    @user_board.place(cruiser, user_coords)
 
-    puts @user_board.render(true)
-    puts "Enter the squares for the Submarine (2 spaces):\n>"
-    input = gets.chomp
-    user_coords = coordinate_scrubber(input)
-
-    until @user_board.valid_placement?(submarine, user_coords)
-      puts "Those coordinates suck! Try again\n>"
-      input = gets.chomp
-      user_coords = coordinate_scrubber(input)
-    end
-    @user_board.place(submarine, user_coords)
-
-    puts @user_board.render(true)
+    puts "All the ships have been placed, get ready to engage in battle!"
+    sleep 2
   end
 
   def coordinate_scrubber(input)
@@ -266,5 +248,6 @@ class BattleshipRunner
     elsif @comp_sunk
       puts "Blast! You've defeated my naval armada. \nYOU WIN!\n"
     end
+    sleep 2
   end
 end
