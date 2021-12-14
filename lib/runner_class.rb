@@ -50,7 +50,6 @@ class BattleshipRunner
       "danger boat" => 6,
       "aircraft carrier" => 7,
       "destroyer" => 8,
-      "mega ultra war ship" => 9
     }
     puts "Now it's time to choose your ships. You have #{units(@size)} ship units to work with. \nHere are your options:\n"
     sleep 3
@@ -65,13 +64,13 @@ class BattleshipRunner
     @chosen_ships = []
     choice = gets.chomp.to_i
     until remaining_units == 0
-      if [1, 2, 3, 4, 5, 6, 7, 8, 9].include?(choice) == false
+      if [1, 2, 3, 4, 5, 6, 7, 8].include?(choice) == false
         puts "Seriously?! Are you typing with your face?"
         sleep 2
         puts ship_list
         puts " Try again.\n>"
         choice = gets.chomp.to_i
-      elsif choice > @size
+      elsif choice >= @size
         puts "Did you really think that ship would fit on your board?"
         sleep 2
         puts ship_list
@@ -88,10 +87,10 @@ class BattleshipRunner
         remaining_units -= choice
         @chosen_ships << @ships.key(choice)
         if remaining_units > 0
-          puts "You have selected a(n) #{@ships.key(choice)}.\n"
-          sleep 2
-          puts ship_list
-          puts "You have #{remaining_units} ship units left, choose wiseley!\n>"
+          puts "You have selected a(n) #{@ships.key(choice)}.You have #{remaining_units} ship units left, choose wiseley!\n>"
+          #sleep 2
+          #puts ship_list
+          #puts "You have #{remaining_units} ship units left, choose wiseley!\n>"
           choice = gets.chomp.to_i
         else
           puts "..and your #{@ships.key(choice)} completes your armada. \nI will use the same ships as you!"
@@ -104,11 +103,11 @@ class BattleshipRunner
   def units(size)
     chart = {
       4 => 5,
-      5 => 8,
-      6 => 12,
-      7 => 16,
-      8 => 21,
-      9 => 27
+      5 => 7,
+      6 => 10,
+      7 => 13,
+      8 => 17,
+      9 => 22
     }
     return chart[size]
   end
@@ -123,6 +122,24 @@ class BattleshipRunner
       @comp_board.place(boat, cells)
     end
    end
+
+   # randomly choose row or column
+   fork_1 = [:row, :column].sample
+   if fork_1 == :row
+     row_letter = @comp_board.cells.keys.sample[0]
+     row_cells = []
+     @comp_board.numbers.each do |num|
+       row_cells << row_letter + num
+     end
+     row_cells.sample(@ships[ship])
+
+   else
+    #do other stuff
+    end
+   # randomly choose a specific strip
+   # check for enough consecutive cells to fit the ship
+   # if so, place ship.
+   # if not, begin the process again
 
   def user_place
     puts @user_board.render
