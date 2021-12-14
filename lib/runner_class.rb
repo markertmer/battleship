@@ -101,6 +101,7 @@ class BattleshipRunner
         end
       end
     end
+    #binding.pry
   end
 
   def units(size)
@@ -116,23 +117,34 @@ class BattleshipRunner
   end
 
   def comp_place
-    cruiser = Ship.new("cruiser", 3)
-    submarine = Ship.new("submarine", 2)
+    # cruiser = Ship.new("cruiser", 3)
+    # submarine = Ship.new("submarine", 2)
 
-    cells = ["A1", "B2", "C3"]
-    until @comp_board.valid_placement?(cruiser, cells)
-      cells = @comp_board.cells.keys.sample(3)
+    @chosen_ships.each do |ship|
+      boat = Ship.new(ship, @ships[ship])
+      cells = @comp_board.cells.keys.sample(@ships[ship])
+      until @comp_board.valid_placement?(boat, cells)
+        cells = @comp_board.cells.keys.sample(@ships[ship])
+      end
+      @comp_board.place(boat, cells)
+
     end
+    #binding.pry
 
-    @comp_board.place(cruiser, cells)
-
-    cells = ["A1", "B2"]
-    until @comp_board.valid_placement?(submarine, cells)
-      cells = @comp_board.cells.keys.sample(2)
-    end
-
-    @comp_board.place(submarine, cells)
-  end
+  #   cells = ["A1", "B2", "C3"]
+  #   until @comp_board.valid_placement?(cruiser, cells)
+  #     cells = @comp_board.cells.keys.sample(3)
+  #   end
+  #
+  #   @comp_board.place(cruiser, cells)
+  #
+  #   cells = ["A1", "B2"]
+  #   until @comp_board.valid_placement?(submarine, cells)
+  #     cells = @comp_board.cells.keys.sample(2)
+  #   end
+  #
+  #   @comp_board.place(submarine, cells)
+   end
 
   def user_place
     cruiser = Ship.new("cruiser", 3)
