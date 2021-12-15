@@ -1,6 +1,7 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
+require './lib/comp_brain'
 require 'pry'
 
 class BattleshipRunner
@@ -208,13 +209,24 @@ class BattleshipRunner
     puts "While that's in the air, I will now take a shot at you!"
     sleep 2
 
-    @comp_shot = @user_board.cells.keys.sample
-
-    until @user_board.cells[@comp_shot].fired_upon? == false
-      @comp_shot = @user_board.cells.keys.sample
+    hits_on_board = @user_board.cells.any? do |key, value|
+      value.render == "H"
     end
 
-    @user_board.cells[@comp_shot].fire_upon
+    if hits_on_board == false
+      @comp_shot = @user_board.cells.keys.sample
+
+      until @user_board.cells[@comp_shot].fired_upon? == false
+        @comp_shot = @user_board.cells.keys.sample
+      end
+
+      @user_board.cells[@comp_shot].fire_upon
+
+    elsif hits_on_board
+      brain = CompBrain.new
+      @comp_shot = brain.hot_coords(@user_board).sample
+      @user_board.cells[@comp_shot].fire_upon
+    end
     results
   end
 
