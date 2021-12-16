@@ -1,10 +1,10 @@
 class Board
-  attr_reader :cells, :size
+  attr_reader :cells, :size, :numbers
 
   def initialize(size = 4)
     @size = size
     key = "1A2B3C4D5E6F7G8H9I"
-    numbers = ("1".."#{size}").to_a
+    @numbers = ("1".."#{size}").to_a
     coords = []
     numbers.each do |num|
       index = key.index(num)

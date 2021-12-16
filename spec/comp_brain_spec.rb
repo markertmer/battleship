@@ -42,7 +42,6 @@ RSpec.describe CompBrain do
     ship_2 = Ship.new("frigate", 4)
     user_board.place(ship_1, ["B2", "B3"])
     user_board.place(ship_2, ["C3", "C4", "C5", "C6"])
-    #binding.pry
     user_board.cells["B3"].fire_upon
     user_board.cells["B2"].fire_upon
     user_board.cells["C3"].fire_upon
