@@ -91,7 +91,6 @@ class BattleshipRunner
         if remaining_units > 0
           puts "You have selected a(n) #{@ships.key(choice)}.\n"
           sleep 2
-          puts ship_list
           puts "You have #{remaining_units} ship units left, choose wiseley!\n>"
           choice = gets.chomp.to_i
         else
@@ -117,13 +116,37 @@ class BattleshipRunner
   def comp_place
     @chosen_ships.each do |ship|
       boat = Ship.new(ship, @ships[ship])
-      cells = @comp_board.cells.keys.sample(@ships[ship])
-      until @comp_board.valid_placement?(boat, cells)
-        cells = @comp_board.cells.keys.sample(@ships[ship])
+      valid_combos = []
+      until valid_combos.empty? == false
+        fork = [:row, :column].sample
+        if fork == :row
+          row_letter = @comp_board.cells.keys.sample[0]
+          row_cells = []
+          @comp_board.numbers.each do |num|
+            row_cells << row_letter + num
+          end
+          combos = row_cells.combination(@ships[ship]).to_a
+          valid_combos = combos.select do |combo|
+            @comp_board.valid_placement?(boat, combo)
+          end
+        elsif fork == :column
+          column_number = @comp_board.cells.keys.sample[1]
+          column_cells = []
+          letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"][0..(@comp_board.size - 1)]
+          letters.each do |let|
+            column_cells << let + column_number
+          end
+          combos = column_cells.combination(@ships[ship]).to_a
+          valid_combos = combos.select do |combo|
+            @comp_board.valid_placement?(boat, combo)
+          end
+        end
       end
+      cells = valid_combos.sample
+
       @comp_board.place(boat, cells)
     end
-   end
+  end
 
   def user_place
     puts @user_board.render
