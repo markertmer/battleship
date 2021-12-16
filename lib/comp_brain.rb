@@ -13,7 +13,7 @@ class CompBrain
       letter = cell[0][0]
       number = cell[0][1]
       index = letter_key.index(letter)
-      #binding.pry
+      
       above_letter = letter_key[index - 1]
       below_letter = letter_key[index + 1]
       left_number = number_key[number.to_i - 1]
